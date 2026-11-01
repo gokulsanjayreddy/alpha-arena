@@ -1,6 +1,6 @@
 # Alpha Arena (Meraz 7.0) Quantitative Submission
 
-This repository contains the algorithmic trading submission for **Alpha Arena – Agents War (Meraz 7.0)** by Gokul Sanjay. The agent trades a universe of 12 anonymized Indian equities across 15 years (3,708 trading days) under realistic transaction costs (**0.3% per trade**, `COST_PER_TRADE = 0.003`) and portfolio constraints.
+This repository contains the algorithmic trading submission for **Alpha Arena – Agents War (Meraz 7.0)** by Gokul Sanjay & Yerra Srikar. The agent trades a universe of 12 anonymized Indian equities across 15 years (3,708 trading days) under realistic transaction costs (**0.3% per trade**, `COST_PER_TRADE = 0.003`) and portfolio constraints.
 
 ---
 
