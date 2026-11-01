@@ -38,8 +38,8 @@ TRAIN_WINDOW = (1188, 3707)
 MODEL = {
     "mom_trend_ma": 100,
     "top_k_enter": 4,
-    "top_k_exit": 6,
-    "tilt_strength": 0.35,
+    "top_k_exit": 7,
+    "tilt_strength": 0.20,
     "min_exposure": 0.40,
     "ml_model": None,
     "stocks": None,
@@ -371,10 +371,15 @@ def _raw_decide_mean_reversion(history):
     if len(picks) == 0:
         low_z = np.argsort(z)[:2]
         half = target_gross / 2.0
-        return {stocks[low_z[0]]: half, stocks[low_z[1]]: half}
+        active = {stocks[low_z[0]]: half, stocks[low_z[1]]: half}
+    else:
+        w_each = target_gross / len(picks)
+        active = {stocks[idx]: float(w_each) for idx in picks}
 
-    w_each = target_gross / len(picks)
-    return {stocks[idx]: float(w_each) for idx in picks}
+    core_wt = 0.75
+    core_each = (core_wt * target_gross) / N
+    tilt_scale = 1.0 - core_wt
+    return {s: core_each + tilt_scale * active.get(s, 0.0) for s in stocks}
 
 
 # =============================================================================
@@ -418,10 +423,15 @@ def _raw_decide_trend_following(history):
     if len(picks) == 0:
         low_risk = np.argsort(atr / c[-1])[:2]
         half = target_gross / 2.0
-        return {stocks[low_risk[0]]: half, stocks[low_risk[1]]: half}
+        active = {stocks[low_risk[0]]: half, stocks[low_risk[1]]: half}
+    else:
+        w_each = target_gross / len(picks)
+        active = {stocks[idx]: float(w_each) for idx in picks}
 
-    w_each = target_gross / len(picks)
-    return {stocks[idx]: float(w_each) for idx in picks}
+    core_wt = 0.75
+    core_each = (core_wt * target_gross) / N
+    tilt_scale = 1.0 - core_wt
+    return {s: core_each + tilt_scale * active.get(s, 0.0) for s in stocks}
 
 
 # =============================================================================
@@ -487,10 +497,15 @@ def _raw_decide_ml(history):
     if len(picks) == 0:
         low_vol = np.argsort(vol21)[:2]
         half = target_gross / 2.0
-        return {stocks[low_vol[0]]: half, stocks[low_vol[1]]: half}
+        active = {stocks[low_vol[0]]: half, stocks[low_vol[1]]: half}
+    else:
+        w_each = target_gross / len(picks)
+        active = {stocks[idx]: float(w_each) for idx in picks}
 
-    w_each = target_gross / len(picks)
-    return {stocks[idx]: float(w_each) for idx in picks}
+    core_wt = 0.75
+    core_each = (core_wt * target_gross) / N
+    tilt_scale = 1.0 - core_wt
+    return {s: core_each + tilt_scale * active.get(s, 0.0) for s in stocks}
 
 
 # =============================================================================

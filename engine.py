@@ -17,7 +17,7 @@ import numpy as np
 import pandas as pd
 
 STARTING_CAPITAL = 100000     # Rs 1 lakh (virtual)
-COST_PER_TRADE = 0.001         # 0.1% of the amount bought or sold
+COST_PER_TRADE = 0.003         # 0.3% of the amount bought or sold
 ALLOW_SHORT = True             # negative weights allowed?
 MAX_GROSS = 1.0                # sum of |weights| may not exceed 1 (no leverage)
 FIELDS = ["open", "high", "low", "close", "volume"]
